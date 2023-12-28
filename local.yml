@@ -1,0 +1,64 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+
+  tasks:
+  - name: install packages
+    package:
+      name:
+        - htop
+        - tmux
+        - thunar
+
+  - name: copy wallpaper file
+    copy:
+      src: files/space.jpg
+      dest: /usr/share/backgrounds/space.jpg
+      owner: root
+      group: root
+
+  - name: set wallpaper
+    become_user: bean
+    dconf:
+      key: "/org/gnome/desktop/background/picture-uri"
+      value: "'file:///usr/share/backgrounds/space.png'"
+
+  - name: set wallpaper position
+    become_user: bean
+    dconf:
+      key: "/org/gnome/desktop/background/picture-options"
+      value: "'stretch'"
+
+  - name: copy .bashrc file
+    copy:
+     src: files/bashrc
+     dest: /home/bean/.bashrc
+     owner: bean
+     group: bean
+
+  - name: copy VPN profile
+    copy:
+     src: files/VPN_middle_earth.ovpn
+     dest: /home/bean/Documents
+     owner: bean
+     group: bean
+#  - name: add ansible user
+#    user:
+#      name: ansible
+#      system: yes
+#
+#  - name: set up sudo for ansible user
+#    copy:
+#      src: files/sudoer_ansible
+#      dest: /etc/sudoers.d/ansible
+#      owner: root
+#      group: root
+#      mode: 0440
+
+#  - name: add ansible-pull cron job
+#    cron:
+#      name: ansible auto-provision
+#      user: ansible
+#      minute: "*/10"
+#      job: ansible-pull -o -U https://github.com/jlacroix82/ansible_pull_tutorial.git
