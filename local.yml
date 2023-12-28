@@ -2,7 +2,6 @@
 - hosts: localhost
   connection: local
   become: true
-  become_user: root
 
   tasks:
   - name: install packages
@@ -13,6 +12,7 @@
         - thunar
 
   - name: copy wallpaper file
+    become_user: bean
     copy:
       src: files/space.jpg
       dest: /usr/share/backgrounds/space.jpg
