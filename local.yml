@@ -22,7 +22,7 @@
     become_user: bean
     dconf:
       key: "/org/gnome/desktop/background/picture-uri"
-      value: "'file:///usr/share/backgrounds/space.png'"
+      value: "'file:///usr/share/backgrounds/space.jpg'"
 
   - name: set wallpaper position
     become_user: bean
