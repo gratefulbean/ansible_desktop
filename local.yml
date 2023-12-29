@@ -18,14 +18,13 @@
       owner: root
       group: root
 
-  - name: set wallpaper
-    dconf:
-      key: "/org/mate/desktop/background/picture-filename"
-      value: "'file:///usr/share/backgrounds/space.jpg'"
+  - name: Set Mate wallpaper
+    ansible.builtin.command:
+      cmd: "gsettings set org.mate.background picture-filename '/path/to/space.jpg'"
 
   - name: set wallpaper position
-    dconf:
-      key: "/org/mate/desktop/background/picture-options"
+    ansible.builtin.command:
+      cmd: "gsettings set /org/mate/desktop/background/picture-options"
       value: "'stretch'"
 
   - name: copy .bashrc file
