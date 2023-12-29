@@ -24,7 +24,7 @@
 
   - name: set wallpaper position
     ansible.builtin.command:
-      cmd: "gsettings set /org/mate/desktop/background/picture-options stretch"
+      cmd: "gsettings set /org/mate/desktop/background/picture-options stretched"
 
   - name: copy .bashrc file
     copy:
