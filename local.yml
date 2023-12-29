@@ -20,7 +20,7 @@
 
   - name: Set Mate wallpaper
     ansible.builtin.command:
-      cmd: "gsettings set org.mate.background picture-filename '/path/to/space.jpg'"
+      cmd: "gsettings set org.mate.background picture-filename /usr/share/backgrounds/space.jpg"
 
   - name: set wallpaper position
     ansible.builtin.command:
