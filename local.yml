@@ -12,7 +12,6 @@
         - thunar
 
   - name: copy wallpaper file
-    become_user: bean
     copy:
       src: files/space.jpg
       dest: /usr/share/backgrounds/space.jpg
@@ -20,13 +19,11 @@
       group: root
 
   - name: set wallpaper
-    become_user: bean
     dconf:
       key: "/org/gnome/desktop/background/picture-uri"
       value: "'file:///usr/share/backgrounds/space.jpg'"
 
   - name: set wallpaper position
-    become_user: bean
     dconf:
       key: "/org/gnome/desktop/background/picture-options"
       value: "'stretch'"
