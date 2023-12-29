@@ -3,6 +3,12 @@
   connection: local
   become: true
 
+  pre_tasks:
+    - name: update Debian/Ubuntu repositories
+      apt:
+        update_cache: yes
+      changed_when: False
+
   tasks:
   - name: install packages
     package:
@@ -15,16 +21,13 @@
     copy:
       src: files/space.jpg
       dest: /usr/share/backgrounds/space.jpg
-      owner: bean
-      group: bean
 
   - name: Set Mate wallpaper
-    ansible.builtin.command:
-      cmd: "gsettings set org.mate.background picture-filename /usr/share/backgrounds/space.jpg"
-
-  - name: set wallpaper position
-    ansible.builtin.command:
-      cmd: "gsettings set /org/mate/desktop/background/picture-options 'stretched'"
+    become_user: bean
+    dconf: key="/org/mate/desktop/background/{{ item.key }}" value={{ item.value}}
+    with_items:
+      - { key: "picture-filename", value: "'/usr/share/backgrounds/space.jpg'" }
+      - { key: "picture-options", value: "'stretch'" }
 
   - name: copy .bashrc file
     copy:
@@ -39,6 +42,7 @@
      dest: /home/bean/Documents
      owner: bean
      group: bean
+
 #  - name: add ansible user
 #    user:
 #      name: ansible
