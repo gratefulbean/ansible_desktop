@@ -20,12 +20,12 @@
 
   - name: set wallpaper
     dconf:
-      key: "/org/gnome/desktop/background/picture-uri"
+      key: "/org/mate/desktop/background/picture-filename"
       value: "'file:///usr/share/backgrounds/space.jpg'"
 
   - name: set wallpaper position
     dconf:
-      key: "/org/gnome/desktop/background/picture-options"
+      key: "/org/mate/desktop/background/picture-options"
       value: "'stretch'"
 
   - name: copy .bashrc file
