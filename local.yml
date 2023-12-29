@@ -15,8 +15,8 @@
     copy:
       src: files/space.jpg
       dest: /usr/share/backgrounds/space.jpg
-      owner: root
-      group: root
+      owner: bean
+      group: bean
 
   - name: Set Mate wallpaper
     ansible.builtin.command:
