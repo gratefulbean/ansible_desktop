@@ -1,0 +1,65 @@
+---
+- name: Configure Users and SSH
+  hosts: your_target_host
+  become: yes  # Run tasks with sudo privileges
+
+  pre_tasks:
+    - name: update Debian/Ubuntu repositories
+      apt:
+        update_cache: yes
+      changed_when: False
+
+  tasks:
+    - name: install packages
+      package:
+        name:
+          - sudo
+
+    - name: Create user 'bean' with sudo privileges
+      user:
+        name: bean
+        groups: sudo
+        append: yes
+        shell: /bin/bash
+      become: yes  # Use sudo to create the user
+
+    - name: Install SSH key for user 'bean'
+      authorized_key:
+        user: bean
+        key: "{{ lookup('file', 'files/acer_bean.pub') }}"
+        state: present
+
+    - name: Create user 'ansible' with root privileges
+      user:
+        name: ansible
+        append: yes
+        shell: /bin/bash
+        generate_ssh_key: yes
+      become: yes
+
+    - name: Install public SSH key for user 'ansible'
+      authorized_key:
+        user: ansible
+        key: "{{ lookup('file', 'files/ansible.pub') }}"
+        state: present
+
+    - name: Modify sshd_config to disable root login and password log in
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: "^PermitRootLogin"
+        line: "PermitRootLogin no"
+      become: yes
+      notify: Restart SSH
+
+    - name: copy .bashrc file
+      copy:
+        src: files/bashrc
+        dest: /home/bean/.bashrc
+        owner: bean
+        group: bean
+
+  handlers:
+    - name: Restart SSH
+      service:
+        name: ssh
+        state: restarted
