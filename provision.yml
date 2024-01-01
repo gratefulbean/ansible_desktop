@@ -1,13 +1,15 @@
 ---
 - name: Configure Users and SSH
-  hosts: your_target_host
+  hosts: all
   become: yes  # Run tasks with sudo privileges
+  become_method: su
 
   pre_tasks:
     - name: update Debian/Ubuntu repositories
       apt:
         update_cache: yes
       changed_when: False
+      become: yes
 
   tasks:
     - name: install packages
@@ -18,10 +20,18 @@
     - name: Create user 'bean' with sudo privileges
       user:
         name: bean
-        groups: sudo
+        groups: root
         append: yes
         shell: /bin/bash
       become: yes  # Use sudo to create the user
+
+    - name: add sudoers filre for bean
+      copy:
+        src: sudoer_bean
+        dest: /etc/sudoers.d/bean
+        owner: root
+        group: root
+        mode: 0440
 
     - name: Install SSH key for user 'bean'
       authorized_key:
@@ -32,6 +42,7 @@
     - name: Create user 'ansible' with root privileges
       user:
         name: ansible
+        groups: root
         append: yes
         shell: /bin/bash
         generate_ssh_key: yes
@@ -43,12 +54,28 @@
         key: "{{ lookup('file', 'files/ansible.pub') }}"
         state: present
 
-    - name: Modify sshd_config to disable root login and password log in
+    - name: add sudoers file for ansible
+      copy: 
+        src: sudoer_ansible
+        dest: /etc/sudoers.d/ansible
+        owner: root
+        group: root
+        mode: 0440
+
+    - name: Disable root login in sshd_config
       lineinfile:
         path: /etc/ssh/sshd_config
         regexp: "^PermitRootLogin"
         line: "PermitRootLogin no"
       become: yes
+      notify: Restart SSH
+
+    - name: Disable password authentication in sshd_config
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication'
+        line: 'PasswordAuthentication no'
+        state: present
       notify: Restart SSH
 
     - name: copy .bashrc file
