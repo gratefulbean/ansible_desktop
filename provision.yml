@@ -2,7 +2,6 @@
 - name: Configure Users and SSH
   hosts: all
   become: yes  # Run tasks with sudo privileges
-  become_method: su
 
   pre_tasks:
     - name: update Debian/Ubuntu repositories
@@ -16,6 +15,8 @@
       package:
         name:
           - sudo
+        state: latest
+        update_cache: yes
 
     - name: Create user 'bean' with sudo privileges
       user:
@@ -45,7 +46,6 @@
         groups: root
         append: yes
         shell: /bin/bash
-        generate_ssh_key: yes
       become: yes
 
     - name: Install public SSH key for user 'ansible'
