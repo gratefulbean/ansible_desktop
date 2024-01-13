@@ -1,5 +1,5 @@
 ---
-- name: Configure Users and SSH
+- name: Configure initial settings
   hosts: all
   become: yes  # Run tasks with sudo privileges
 
@@ -15,18 +15,11 @@
       package:
         name:
           - sudo
+          - crowdsec
         state: latest
         update_cache: yes
 
-    - name: Create user 'bean' with sudo privileges
-      user:
-        name: bean
-        groups: root
-        append: yes
-        shell: /bin/bash
-      become: yes  # Use sudo to create the user
-
-    - name: add sudoers filre for bean
+    - name: add sudoers file for bean
       copy:
         src: sudoer_bean
         dest: /etc/sudoers.d/bean
@@ -39,14 +32,6 @@
         user: bean
         key: "{{ lookup('file', 'files/acer_bean.pub') }}"
         state: present
-
-    - name: Create user 'ansible' with root privileges
-      user:
-        name: ansible
-        groups: root
-        append: yes
-        shell: /bin/bash
-      become: yes
 
     - name: Install public SSH key for user 'ansible'
       authorized_key:
