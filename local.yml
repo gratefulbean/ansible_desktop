@@ -16,6 +16,7 @@
       package:
         name:
           - ansible
+          - neovim
         state: latest
 
     - name: add sudoers file for bean

@@ -16,6 +16,7 @@
       package:
         name:
           - ansible
+          - neovim
         state: latest
 
     - name: add sudoers file for bean
@@ -61,12 +62,12 @@
         owner: bean
         group: bean
 
-  - name: add ansible-pull cron job
-    cron:
-      name: ansible auto-provision
-      user: ansible
-      minute: "*/10"
-      job: ansible-pull -o -U https://github.com/gratefulbean/ansible.git
+    - name: add ansible-pull cron job
+      cron:
+        name: ansible auto-provision
+        user: ansible
+        minute: "*/10"
+        job: ansible-pull -o -U https://github.com/gratefulbean/ansible.git
 
   handlers:
     - name: Restart SSH
