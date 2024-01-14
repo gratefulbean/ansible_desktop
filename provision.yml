@@ -6,6 +6,7 @@
   pre_tasks:
     - name: update Debian/Ubuntu repositories
       apt:
+        upgrade: dist
         update_cache: yes
       changed_when: False
       become: yes
@@ -14,10 +15,8 @@
     - name: install packages
       package:
         name:
-          - sudo
-          - crowdsec
+          - ansible
         state: latest
-        update_cache: yes
 
     - name: add sudoers file for bean
       copy:
@@ -30,22 +29,14 @@
     - name: Install SSH key for user 'bean'
       authorized_key:
         user: bean
-        key: "{{ lookup('file', 'files/acer_bean.pub') }}"
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
         state: present
 
     - name: Install public SSH key for user 'ansible'
       authorized_key:
         user: ansible
-        key: "{{ lookup('file', 'files/ansible.pub') }}"
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFESJwkcm17vcT8 ansible"
         state: present
-
-    - name: add sudoers file for ansible
-      copy: 
-        src: sudoer_ansible
-        dest: /etc/sudoers.d/ansible
-        owner: root
-        group: root
-        mode: 0440
 
     - name: Disable root login in sshd_config
       lineinfile:
@@ -69,58 +60,6 @@
         dest: /home/bean/.bashrc
         owner: bean
         group: bean
-
----
-- hosts: localhost
-  connection: local
-  become: true
-
-  tasks:
-  - name: install packages
-    package:
-      name:
-        - htop
-        - tmux
-        - vim-nox
-
-  - name: copy wallpaper file
-    copy:
-      src: files/wallpaper.png
-      dest: /usr/share/backgrounds/ansible-wallpaper.png
-      owner: root
-      group: root
-
-  - name: set wallpaper
-    become_user: jay
-    dconf:
-      key: "/org/gnome/desktop/background/picture-uri"
-      value: "'file:///usr/share/backgrounds/ansible-wallpaper.png'"
-
-  - name: set wallpaper position
-    become_user: jay
-    dconf:
-      key: "/org/gnome/desktop/background/picture-options"
-      value: "'zoom'"
-
-  - name: copy .bashrc file
-    copy:
-     src: files/bashrc
-     dest: /home/jay/.bashrc
-     owner: jay
-     group: jay
-
-  - name: add ansible user
-    user:
-      name: velociraptor
-      system: yes
-
-  - name: set up sudo for ansible user
-    copy:
-      src: files/sudoer_velociraptor
-      dest: /etc/sudoers.d/velociraptor
-      owner: root
-      group: root
-      mode: 0440
 
   - name: add ansible-pull cron job
     cron:

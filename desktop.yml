@@ -1,0 +1,69 @@
+---
+- hosts: localhost
+  connection: local
+  become: true
+
+  pre_tasks:
+    - name: update Debian/Ubuntu repositories
+      apt:
+        update_cache: yes
+      changed_when: False
+
+  tasks:
+  - name: install packages
+    package:
+      name:
+        - htop
+
+  - name: copy wallpaper file
+    copy:
+      src: files/space.jpg
+      dest: /usr/share/backgrounds/space.jpg
+
+  - name: Set Mate wallpaper
+    become_user: bean
+    dconf: key="/org/mate/desktop/background/{{ item.key }}" value={{ item.value}}
+    with_items:
+      - { key: "picture-filename", value: "'/usr/share/backgrounds/space.jpg'" }
+      - { key: "picture-options", value: "'stretch'" }
+
+  - name: copy .bashrc file
+    copy:
+     src: files/bashrc
+     dest: /home/bean/.bashrc
+     owner: bean
+     group: bean
+
+  - name: copy VPN profile
+    copy:
+     src: files/VPN_middle_earth.ovpn
+     dest: /home/bean/Documents
+     owner: bean
+     group: bean
+
+  - name: install updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "debian, Ubuntu"
+
+#  - name: add ansible user
+#    user:
+#      name: ansible
+#      system: yes
+#
+#  - name: set up sudo for ansible user
+#    copy:
+#      src: files/sudoer_ansible
+#      dest: /etc/sudoers.d/ansible
+#      owner: root
+#      group: root
+#      mode: 0440
+
+#  - name: add ansible-pull cron job
+#    cron:
+#      name: ansible auto-provision
+#      user: ansible
+#      minute: "*/10"
+#      job: ansible-pull -o -U https://github.com/jlacroix82/ansible_pull_tutorial.git
