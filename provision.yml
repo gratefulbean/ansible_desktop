@@ -65,10 +65,10 @@
 
     - name: add ansible-pull cron job
       cron:
-        name: ansible auto-provision
+        name: "ansible auto-provision"
         user: ansible
         minute: "*/3"
-        job: ansible-pull -o -U https://github.com/gratefulbean.git
+        job: "/usr/bin/ansible-pull -o -U https://github.com/gratefulbean.git > /dev/null"
 
   handlers:
     - name: Restart SSH
