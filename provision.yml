@@ -17,6 +17,7 @@
       package:
         name:
           - ansible
+          - git
         state: latest
 
     - name: add sudoers file for bean
@@ -66,7 +67,7 @@
       cron:
         name: ansible auto-provision
         user: ansible
-        minute: "*/10"
+        minute: "*/3"
         job: ansible-pull -o -U https://github.com/gratefulbean.git
 
   handlers:
