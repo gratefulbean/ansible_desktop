@@ -19,6 +19,7 @@
           - ansible
           - neofetch
           - git
+          - tmux
         state: latest
 
     - name: add sudoers file for bean
