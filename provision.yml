@@ -67,8 +67,8 @@
       cron:
         name: "ansible auto-provision"
         user: ansible
-        minute: "*/3"
-        job: "/usr/bin/ansible-pull -o -U https://github.com/gratefulbean.git > /dev/null"
+        minute: "*/2"
+        job: "/usr/bin/ansible-pull -o -U https://github.com/gratefulbean/ansible.git > /dev/null"
 
   handlers:
     - name: Restart SSH
