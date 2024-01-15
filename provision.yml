@@ -13,10 +13,10 @@
 
   tasks:
     - name: install packages
+      become: yes
       package:
         name:
           - ansible
-          - neovim
         state: latest
 
     - name: add sudoers file for bean
@@ -67,7 +67,7 @@
         name: ansible auto-provision
         user: ansible
         minute: "*/10"
-        job: ansible-pull -o -U https://github.com/gratefulbean/local.git
+        job: ansible-pull -o -U https://github.com/gratefulbean.git
 
   handlers:
     - name: Restart SSH
