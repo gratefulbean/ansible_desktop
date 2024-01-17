@@ -1,1 +1,15 @@
-read.me
+#make sure user bean has sudo on remote
+apt install sudo
+usermod -aG sudo bean
+
+#send pub ssh key from workstation to to remote
+ssh-copy-id -i ~/.aah/ansible.pub i.p.add.ress
+
+#add server to invenory/hosts and assign a role
+sudo nano ~/ansible/hosts
+
+#run boostrap.yml
+ansible-playbook -i hosts -l FQDN --ask-become-pass  bootstrap.yml
+
+#run ansbile provision playbook (all hosts)
+ansible-playbook provision

@@ -33,6 +33,11 @@
         user: bean
         key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
         state: present
+    - name: Install git_server SSH key
+      authorized_key:
+        user: bean
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINXL7DUbV6SS70YZMECIAolHEI3wJJ7qlFnDD1daXYtJ git"
+        state: present
 
     - name: Install public SSH key for user 'ansible'
       authorized_key:
