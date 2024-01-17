@@ -1,6 +1,6 @@
 ---
 - name: Configure initial settings
-  hosts: localhost
+  hosts: all
   become: yes  # Run tasks with sudo privileges
 
   pre_tasks:
