@@ -20,6 +20,7 @@
           - neofetch
           - git
           - tmux
+          - cifs-utils
         state: latest
 
     - name: add sudoers file for bean
