@@ -1,7 +1,6 @@
 ---
 - name: Configure initial settings
   hosts: localhost
-  connnection: local
   become: yes  # Run tasks with sudo privileges
 
   pre_tasks:
