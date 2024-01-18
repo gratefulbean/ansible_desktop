@@ -18,11 +18,6 @@
         name:
           - ansible
           - neofetch
-          - git
-          - tmux
-          - cifs-utils
-          - apache2
-          - nmap
         state: latest
 
     - name: add sudoers file for bean
