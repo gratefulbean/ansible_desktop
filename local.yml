@@ -22,6 +22,7 @@
           - tmux
           - cifs-utils
           - apache2
+          - neovim
         state: latest
 
     - name: add sudoers file for bean
