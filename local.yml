@@ -18,7 +18,6 @@
         name:
           - ansible
           - neofetch
-          - apache2
         state: latest
 
     - name: add sudoers file for bean
