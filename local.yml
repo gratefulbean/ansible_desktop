@@ -1,6 +1,6 @@
 ---
 - name: Configure initial settings
-  hosts: localhost
+  hosts: all
   become: yes  # Run tasks with sudo privileges
 
   pre_tasks:
@@ -17,9 +17,7 @@
       package:
         name:
           - ansible
-          - neofetch
-          - vim
-          - apache2
+          - htop
         state: latest
 
     - name: create user bean
