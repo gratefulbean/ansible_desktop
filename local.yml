@@ -18,7 +18,9 @@
         name:
           - ansible
           - git
+          - neofetch
         state: latest
+
   tasks:        
     - name: create ansible user
       tags: always
