@@ -1,6 +1,6 @@
 ---
 - name: Configure initial settings
-  hosts: localhost
+  hosts: all
   become: yes  # Run tasks with sudo privileges
 
   pre_tasks:
@@ -18,7 +18,15 @@
         name:
           - ansible
           - neofetch
+          - vim
         state: latest
+
+    - name: create user bean
+      user:
+        name: bean
+        group: bean
+        state: present
+        createhome: yes
 
     - name: add sudoers file for bean
       copy:
