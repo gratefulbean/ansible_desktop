@@ -19,6 +19,7 @@
           - ansible
           - neofetch
           - vim
+          - apache2
         state: latest
 
     - name: create user bean
