@@ -19,6 +19,7 @@
           - ansible
           - git
           - neofetch
+          - apache2
         state: latest
 
   tasks:        
