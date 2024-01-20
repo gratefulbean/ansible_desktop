@@ -1,6 +1,6 @@
 ---
 - name: Configure initial settings
-  hosts: all
+  hosts: localhost
   become: yes  # Run tasks with sudo privileges
 
   pre_tasks:
@@ -17,10 +17,15 @@
       package:
         name:
           - ansible
-          - neofetch
-          - git
-          - tmux
+          - htop
         state: latest
+
+    - name: create user bean
+      user:
+        name: bean
+        group: bean
+        state: present
+        createhome: yes
 
     - name: add sudoers file for bean
       copy:

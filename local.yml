@@ -1,7 +1,8 @@
 ---
-- name: Configure initial settings
-  hosts: localhost
-  become: yes  # Run tasks with sudo privileges
+
+- hosts: localhost
+  connection: local
+  become: true
 
   pre_tasks:
     - name: update Debian/Ubuntu repositories
@@ -11,14 +12,35 @@
       changed_when: False
       become: yes
 
-  tasks:
     - name: install packages
       become: yes
       package:
         name:
           - ansible
-          - htop
+          - git
         state: latest
+  tasks:        
+    - name: create ansible user
+      tags: always
+      user:
+        name: ansible
+        groups: root
+        state: present
+        createhome: yes 
+    - name: add ssh key for ansible
+      tags: always
+      authorized_key:
+        user: ansible
+        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFESJwkcm17vcT8 ansible"
+
+    - name: add sudoers file for ansible
+      tags: always
+      copy:
+        src: sudoer_ansible
+        dest: /etc/sudoers.d/ansible
+        owner: root
+        group: root
+        mode: 0440
 
     - name: create user bean
       user:
@@ -26,7 +48,7 @@
         group: bean
         state: present
         createhome: yes
-
+             
     - name: add sudoers file for bean
       copy:
         src: sudoer_bean
@@ -39,12 +61,6 @@
       authorized_key:
         user: bean
         key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
-        state: present
-
-    - name: Install public SSH key for user 'ansible'
-      authorized_key:
-        user: ansible
-        key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL7ZKCfGHSEDKqwD7MuL/8y0G2rxSyFESJwkcm17vcT8 ansible"
         state: present
 
     - name: Disable root login in sshd_config
@@ -69,6 +85,20 @@
         dest: /home/bean/.bashrc
         owner: bean
         group: bean
+        
+    - name: install packages
+      become: yes
+      package:
+        name:
+          - ansible
+        state: latest
+
+    - name: Add ansible-pull cron job
+      cron:
+        name: "ansible auto-provision"
+        user: ansible
+        minute: "*/2"
+        job: "/usr/bin/ansible-pull -o -U https://github.com/gratefulbean/ansible.git"
 
   handlers:
     - name: Restart SSH
