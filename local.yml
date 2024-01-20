@@ -108,3 +108,36 @@
       service:
         name: ssh
         state: restarted
+
+- hosts: dns
+  - name: users | bean | remove preinstalled clutter from home directory
+    file:
+      path: /home/bean/{{ item }}
+      state: absent
+    with_items:
+      - examples.desktop
+      - Desktop
+      - Documents
+      - Downloads
+      - Music
+      - Pictures
+      - Public
+      - Templates
+      - Videos
+
+  - name: users | bean | create personal config directories
+    tags: always
+    file:
+      path: /home/bean/{{ item.dir }}
+      state: directory
+      owner: bean
+      group: bean
+      mode: 0700
+    with_items:
+      - { dir: .config }
+      - { dir: .local }
+      - { dir: .local/share }
+      - { dir: desktop }
+      - { dir: documents }
+      - { dir: downloads }
+      - { dir: templates }

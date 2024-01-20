@@ -1,3 +1,7 @@
 [servers]
 10.68.1.129 ansible_connection=ssh
 10.68.1.135 ansible_connection-ssh
+
+[dns]
+10.68.1.21 ansible_connection=ssh
+10.68.1.22 ansible_connection=ssh
