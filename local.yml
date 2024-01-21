@@ -90,6 +90,10 @@
         owner: bean
         group: bean
         mode: "0644"
+      register: result
+
+    - debug:
+        var: results
 
   handlers:
     - name: Restart SSH
