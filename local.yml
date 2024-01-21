@@ -1,9 +1,8 @@
 ---
 
-- hosts: localhost
-  connection: local
+- hosts: all
   become: true
-
+  tags: always
   pre_tasks:
     - name: update Debian/Ubuntu repositories
       apt:
@@ -17,19 +16,18 @@
       package:
         name:
           - ansible
-          - git
           - neofetch
-          - apache2
         state: latest
 
-  tasks:        
+  tasks:
     - name: create ansible user
       tags: always
       user:
         name: ansible
         groups: root
         state: present
-        createhome: yes 
+        createhome: yes
+
     - name: add ssh key for ansible
       tags: always
       authorized_key:
@@ -51,7 +49,7 @@
         group: bean
         state: present
         createhome: yes
-             
+
     - name: add sudoers file for bean
       copy:
         src: sudoer_bean
@@ -88,20 +86,6 @@
         dest: /home/bean/.bashrc
         owner: bean
         group: bean
-        
-    - name: install packages
-      become: yes
-      package:
-        name:
-          - ansible
-        state: latest
-
-    - name: Add ansible-pull cron job
-      cron:
-        name: "ansible auto-provision"
-        user: ansible
-        minute: "*/2"
-        job: "/usr/bin/ansible-pull -o -U https://github.com/gratefulbean/ansible.git"
 
   handlers:
     - name: Restart SSH
@@ -126,7 +110,7 @@
         - Templates
         - Videos
 
-    - name: users | bean | create personal config directories
+    - name: users | bean | create personal directories
       tags: always
       file:
         path: /home/bean/{{ item.dir }}
