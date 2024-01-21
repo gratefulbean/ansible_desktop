@@ -112,6 +112,7 @@
 
     - name: users | bean | create personal directories
       tags: always
+      become: yes
       file:
         path: /home/bean/{{ item.dir }}
         state: directory
@@ -119,9 +120,6 @@
         group: bean
         mode: 0700
       with_items:
-        - { dir: .config }
-        - { dir: .local }
-        - { dir: .local/share }
         - { dir: desktop }
         - { dir: documents }
         - { dir: downloads }
