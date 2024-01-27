@@ -92,8 +92,8 @@
         mode: "0644"
       register: result
 
-    - debug:
-        var: result
+#    - debug:
+#        var: result
 
   handlers:
     - name: Restart SSH
