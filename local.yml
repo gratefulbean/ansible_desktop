@@ -1,8 +1,9 @@
 ---
+
 - hosts: localhost
   connection: local
   become: true
-  tags: always
+
   pre_tasks:
     - name: update Debian/Ubuntu repositories
       apt:
