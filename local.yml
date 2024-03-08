@@ -8,6 +8,7 @@
       apt:
         upgrade: dist
         update_cache: yes
+        autoremove: yes
       changed_when: False
       become: yes
 
@@ -17,6 +18,7 @@
         name:
           - ansible
           - neofetch
+          - htop
         state: latest
 
   tasks:
