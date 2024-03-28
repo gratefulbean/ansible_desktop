@@ -94,11 +94,6 @@
         mode: "0644"
       register: result
 
-    - name: remove apache2
-      apt:
-        name: apache2
-        state: absent
-
   handlers:
     - name: Restart SSH
       service:
