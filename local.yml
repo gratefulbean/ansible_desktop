@@ -19,6 +19,7 @@
           - ansible
           - neofetch
           - htop
+          - apache2
         state: latest
 
   tasks:
