@@ -19,7 +19,6 @@
           - ansible
           - neofetch
           - htop
-          - apache2
         state: latest
 
   tasks:
@@ -29,7 +28,7 @@
         name: ansible
         groups: root
         state: present
-        createhome: yes
+        createhome: no
 
     - name: add ssh key for ansible
       tags: always
@@ -95,8 +94,10 @@
         mode: "0644"
       register: result
 
-#    - debug:
-#        var: result
+    - name: remove apache2
+      apt:
+        name: apache2
+        state: absent
 
   handlers:
     - name: Restart SSH
