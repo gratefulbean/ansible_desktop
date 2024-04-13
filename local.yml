@@ -28,7 +28,6 @@
         name: ansible
         groups: root
         state: present
-        createhome: no
 
     - name: add ssh key for ansible
       tags: always
