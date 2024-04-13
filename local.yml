@@ -62,10 +62,16 @@
         group: root
         mode: 0440
 
-    - name: Install SSH key for user 'bean'
+    - name: Install acer_bean SSH key
       authorized_key:
         user: bean
         key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKIefOlgTs7w/n/wGGv4LWhOfVwzwmbsQx6VB6/cy/Jo acer_bean"
+        state: present
+
+    - name: Install Rivendell SSH key
+      authorized_key:
+        user: bean
+        key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH4h/yO38hmvoLWD7lv+Ts/QJDV2avXAmdXDqjviYCHA Rivendell
         state: present
 
     - name: Disable root login in sshd_config
