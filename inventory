@@ -1,12 +1,18 @@
 [all]
-10.68.1.9
-10.68.1.12
+omada.thebeans.cloud
+#10.68.1.9
 10.68.1.13
-10.68.1.21
-10.68.1.22
-10.68.1.23
-10.68.1.24
-10.68.1.26
+dns.thebeans.cloud
+#10.68.1.21
+npm.thebeans.cloud
+#10.68.1.22
+ansible.thebeans.cloud
+#10.68.1.23
+docker.thebeans.cloud
+#10.68.1.24
+#10.68.1.25
+deploy.thebeans.cloud
+#10.68.1.26
 media.thebeans.cloud
 
 [workstations]
