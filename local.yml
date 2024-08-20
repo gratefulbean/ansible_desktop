@@ -76,6 +76,11 @@
         group: devin
         createhome: yes
 
+    - name: Ensure devin group exists
+      group:
+        name: devin
+        state: present
+
     - name: add sudo priveleges file for devin
       tags: always
       become: yes
