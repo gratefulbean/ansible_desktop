@@ -140,7 +140,8 @@ git_info() {
 
 # Customize the PS1 prompt without an emoji
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    PS1='\[\e[32m\]\u@\[\e[31m\]\h\[\e[00m\]:\[\e[34m\]\w\[\e[00m\] $(git_info)\n\[\e[36m\]🖥️  \[\e[33m\] '
+    PS1='\[\e[32m\]\u@\[\e[31m\]\h\[\e[m\]:\[\e[36m\]\w\[\e[m\] $(git_info)\n\[\e[36m\]🖥️  \[\e[33m\]\$ '
 else
-    PS1='\[\e[32m\]\u@\[\e[34m\]\h\[\e[00m\]:\[\e[34m\]\w\[\e[00m\] $(git_info)\n\[\e[36m\]➜ \[\e[33m\] '
+    PS1='\[\e[32m\]\u@\[\e[34m\]\h\[\e[m\]:\[\e[36m\]\w\[\e[m\] $(git_info)\n\[\e[36m\]🏠  \[\e[33m\]\$ '
 fi
+
