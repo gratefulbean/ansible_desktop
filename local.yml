@@ -17,8 +17,9 @@
       package:
         name:
           - ansible
-          - neofetch
-          - htop
+          - rsync
+          - nfs-common
+          - cifs-utils
         state: latest
 
   tasks:
